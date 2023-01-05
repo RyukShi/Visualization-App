@@ -7,12 +7,16 @@ import matplotlib.pyplot as plt
 
 class MarchingSquare():
 
-    def __init__(self) -> None:
+    def __init__(
+        self,
+        dim: str = '2d',
+        verbose: bool = False
+    ):
 
         self.randomData = []
         self.maxPts = 256
-        # change dim (3d)
-        self.dim = '2d'
+        self.dim = dim
+        self.verbose = verbose
         self.xMax = 0
         self.generateRandomData(size=256)
         self.randomNumber = self.generateRandomNumber()
@@ -47,9 +51,10 @@ class MarchingSquare():
         if size <= self.maxPts and size >= 4 and self.isPerfectSquare(size):
             self.randomData = np.random.uniform(rangeMin, rangeMax, size)
             self.xMax = int(math.sqrt(len(self.randomData)))
-            print("Random data generated successfully!")
+            if self.verbose:
+                print("Random data generated successfully!")
         else:
-            print("Incorrect value for size (min: 4 pts ; max: 256 pts)")
+            raise ValueError("Incorrect value for size (min: 4 pts, max: 256 pts)")
 
     def generateRandomNumber(self) -> float:
         return random.uniform(min(self.randomData), max(self.randomData))
@@ -130,7 +135,7 @@ class MarchingSquare():
     def linearInterpolation(self, evaluatedValue, x, y):
         return np.interp(evaluatedValue, x, y)
 
-    def isoValues(self, states=False, points=False):
+    def isoValues(self, states=False, points=False, color='#f69b41'):
 
         for i in range(0, self.xMax - 1):
             for j in range(0, self.xMax - 1):
@@ -155,8 +160,8 @@ class MarchingSquare():
                     y = [i, i + 0.5]
 
                     if (points):
-                        self.axes.scatter(x, y, c='#f69b41', s=8)
-                    self.axes.plot(x, y, c='#f69b41')
+                        self.axes.scatter(x, y, c='', s=8)
+                    self.axes.plot(x, y, c=color)
 
                 elif ((p1, p2, p3, p4) == (0, 0, 0, 1)):
 
@@ -167,8 +172,8 @@ class MarchingSquare():
                     y = [i, i + 0.5]
 
                     if (points):
-                        self.axes.scatter(x, y, c='#f69b41', s=8)
-                    self.axes.plot(x, y, c='#f69b41')
+                        self.axes.scatter(x, y, c=color, s=8)
+                    self.axes.plot(x, y, c=color)
 
                 elif ((p1, p2, p3, p4) == (0, 0, 1, 1)):
 
@@ -179,8 +184,8 @@ class MarchingSquare():
                     y = [i + 0.5, i + 0.5]
 
                     if (points):
-                        self.axes.scatter(x, y, c='#f69b41', s=8)
-                    self.axes.plot(x, y, c='#f69b41')
+                        self.axes.scatter(x, y, c=color, s=8)
+                    self.axes.plot(x, y, c=color)
 
                 elif ((p1, p2, p3, p4) == (0, 1, 0, 0)):
 
@@ -191,8 +196,8 @@ class MarchingSquare():
                     y = [i + 1, i + 0.5]
 
                     if (points):
-                        self.axes.scatter(x, y, c='#f69b41', s=8)
-                    self.axes.plot(x, y, c='#f69b41')
+                        self.axes.scatter(x, y, c=color, s=8)
+                    self.axes.plot(x, y, c=color)
 
                 elif ((p1, p2, p3, p4) == (0, 1, 1, 0)):
 
@@ -203,9 +208,9 @@ class MarchingSquare():
                     y = [i + 1, i + 0.5, i, i + 0.5]
 
                     if (points):
-                        self.axes.scatter(x, y, c='#f69b41', s=8)
-                    self.axes.plot(x[:2], y[:2], c='#f69b41')
-                    self.axes.plot(x[-2:], y[-2:], c='#f69b41')
+                        self.axes.scatter(x, y, c=color, s=8)
+                    self.axes.plot(x[:2], y[:2], c=color)
+                    self.axes.plot(x[-2:], y[-2:], c=color)
 
                 elif ((p1, p2, p3, p4) == (0, 1, 0, 1)):
 
@@ -216,8 +221,8 @@ class MarchingSquare():
                     y = [i, i + 1]
 
                     if (points):
-                        self.axes.scatter(x, y, c='#f69b41', s=8)
-                    self.axes.plot(x, y, c='#f69b41')
+                        self.axes.scatter(x, y, c=color, s=8)
+                    self.axes.plot(x, y, c=color)
 
                 elif ((p1, p2, p3, p4) == (0, 1, 1, 1)):
 
@@ -228,8 +233,8 @@ class MarchingSquare():
                     y = [i + 0.5, i + 1]
 
                     if (points):
-                        self.axes.scatter(x, y, c='#f69b41', s=8)
-                    self.axes.plot(x, y, c='#f69b41')
+                        self.axes.scatter(x, y, c=color, s=8)
+                    self.axes.plot(x, y, c=color)
 
                 elif ((p1, p2, p3, p4) == (1, 0, 0, 0)):
 
@@ -240,8 +245,8 @@ class MarchingSquare():
                     y = [i + 0.5, i + 1]
 
                     if (points):
-                        self.axes.scatter(x, y, c='#f69b41', s=8)
-                    self.axes.plot(x, y, c='#f69b41')
+                        self.axes.scatter(x, y, c=color, s=8)
+                    self.axes.plot(x, y, c=color)
 
                 elif ((p1, p2, p3, p4) == (1, 0, 1, 0)):
 
@@ -252,8 +257,8 @@ class MarchingSquare():
                     y = [i, i + 1]
 
                     if (points):
-                        self.axes.scatter(x, y, c='#f69b41', s=8)
-                    self.axes.plot(x, y, c='#f69b41')
+                        self.axes.scatter(x, y, c=color, s=8)
+                    self.axes.plot(x, y, c=color)
 
                 elif ((p1, p2, p3, p4) == (1, 0, 0, 1)):
 
@@ -264,9 +269,9 @@ class MarchingSquare():
                     y = [i + 0.5, i + 1, i, i + 0.5]
 
                     if (points):
-                        self.axes.scatter(x, y, c='#f69b41', s=8)
-                    self.axes.plot(x[:2], y[:2], c='#f69b41')
-                    self.axes.plot(x[-2:], y[-2:], c='#f69b41')
+                        self.axes.scatter(x, y, c=color, s=8)
+                    self.axes.plot(x[:2], y[:2], c=color)
+                    self.axes.plot(x[-2:], y[-2:], c=color)
 
                 elif ((p1, p2, p3, p4) == (1, 0, 1, 1)):
 
@@ -277,8 +282,8 @@ class MarchingSquare():
                     y = [i + 1, i + 0.5]
 
                     if (points):
-                        self.axes.scatter(x, y, c='#f69b41', s=8)
-                    self.axes.plot(x, y, c='#f69b41')
+                        self.axes.scatter(x, y, c=color, s=8)
+                    self.axes.plot(x, y, c=color)
 
                 elif ((p1, p2, p3, p4) == (1, 1, 0, 0)):
 
@@ -289,8 +294,8 @@ class MarchingSquare():
                     y = [i + 0.5, i + 0.5]
 
                     if (points):
-                        self.axes.scatter(x, y, c='#f69b41', s=8)
-                    self.axes.plot(x, y, c='#f69b41')
+                        self.axes.scatter(x, y, c=color, s=8)
+                    self.axes.plot(x, y, c=color)
 
                 elif ((p1, p2, p3, p4) == (1, 1, 1, 0)):
 
@@ -301,8 +306,8 @@ class MarchingSquare():
                     y = [i, i + 0.5]
 
                     if (points):
-                        self.axes.scatter(x, y, c='#f69b41', s=8)
-                    self.axes.plot(x, y, c='#f69b41')
+                        self.axes.scatter(x, y, c=color, s=8)
+                    self.axes.plot(x, y, c=color)
 
                 elif ((p1, p2, p3, p4) == (1, 1, 0, 1)):
 
@@ -313,15 +318,5 @@ class MarchingSquare():
                     y = [i, i + 0.5]
 
                     if (points):
-                        self.axes.scatter(x, y, c='#f69b41', s=8)
-                    self.axes.plot(x, y, c='#f69b41')
-
-
-def main():
-
-    marching_square = MarchingSquare()
-    marching_square.run()
-
-
-if __name__ == '__main__':
-    main()
+                        self.axes.scatter(x, y, c=color, s=8)
+                    self.axes.plot(x, y, c=color)
